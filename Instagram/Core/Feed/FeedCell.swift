@@ -1,0 +1,107 @@
+//
+//  FeedCell.swift
+//  Instagram
+//
+//  Created by Максим Лотіцький on 15/12/2025.
+//
+
+import SwiftUI
+
+struct FeedCell: View {
+    let post: Post
+    
+    var body: some View {
+        VStack {
+            // image + username
+            HStack {
+                if let user = post.user {
+                    Image(user.profileImageUrl ?? "profile_picture_default")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                
+                    Text(user.userName)
+                        .font(.footnote)
+                        .fontWeight(.semibold)
+                }
+                
+                Spacer()
+            }
+            .padding(.leading, 8)
+            
+            Image(post.imageUrl)
+                .resizable()
+                .scaledToFill()
+                .frame(height: 400)
+                .clipShape(Rectangle())
+            
+            // action buttons
+            HStack(spacing: 16) {
+                Button {
+                    print("Like post")
+                } label: {
+                    Image(systemName: "heart")
+                        .imageScale(.large)
+                }
+                
+                Button {
+                    print("Comment on post")
+                } label: {
+                    Image(systemName: "bubble.right")
+                        .imageScale(.large)
+                }
+                
+                Button {
+                    print("Share post")
+                } label: {
+                    Image(systemName: "paperplane")
+                        .imageScale(.large)
+                }
+                
+                Spacer()
+
+            }
+            .padding(.leading, 8)
+            .padding(.top, 4)
+            .foregroundStyle(.black)
+            
+            // likes label
+            
+            Text("\(post.likes) likes")
+                .font(.footnote)
+                .fontWeight(.semibold)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 10)
+                .padding(.top, 1)
+            
+            // caption label
+            
+            if post.caption != nil {
+                HStack {
+                    if let user = post.user {
+                        Text("\(user.userName) ").fontWeight(.semibold) +
+                        Text(post.caption ?? "")
+                    }
+                }
+                .font(.footnote)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 10)
+                .padding(.top, 1)
+            }
+            
+            // timestamp label
+            
+            Text("6h ago")
+                .font(.footnote)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.leading, 10)
+                .padding(.top, 1)
+                .foregroundStyle(.gray)
+        }
+    }
+}
+
+#Preview {
+    FeedCell(post: Post.MOCK_POSTS[0])
+}
