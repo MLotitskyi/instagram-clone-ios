@@ -35,7 +35,7 @@ struct LoginView: View {
                 Button {
                     print("Show forgot password")
                 } label: {
-                    Text("Text Password?")
+                    Text("Forgot password?")
                         .font(.footnote)
                         .fontWeight(.semibold)
                         .padding(.top)
