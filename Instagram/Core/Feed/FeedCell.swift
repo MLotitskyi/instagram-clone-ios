@@ -21,7 +21,7 @@ struct FeedCell: View {
                         .frame(width: 40, height: 40)
                         .clipShape(Circle())
                 
-                    Text(user.userName)
+                    Text(user.username)
                         .font(.footnote)
                         .fontWeight(.semibold)
                 }
@@ -80,7 +80,7 @@ struct FeedCell: View {
             if post.caption != nil {
                 HStack {
                     if let user = post.user {
-                        Text("\(user.userName) ").fontWeight(.semibold) +
+                        Text("\(user.username) ").fontWeight(.semibold) +
                         Text(post.caption ?? "")
                     }
                 }

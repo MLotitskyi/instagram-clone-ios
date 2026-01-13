@@ -12,7 +12,7 @@ struct ProfileView: View {
     let user: User
     
     var posts: [Post] {
-        return Post.MOCK_POSTS.filter({ $0.user?.userName == user.userName })
+        return Post.MOCK_POSTS.filter({ $0.user?.username == user.username })
     }
     
     var body: some View {
@@ -25,7 +25,7 @@ struct ProfileView: View {
                 .padding(.horizontal, 1)
             
         }
-        .navigationTitle(user.userName)
+        .navigationTitle(user.username)
         .navigationBarTitleDisplayMode(.inline)
     }
 }
