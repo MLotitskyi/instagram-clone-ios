@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 struct User: Identifiable, Hashable, Codable {
     let id: String
@@ -14,6 +15,11 @@ struct User: Identifiable, Hashable, Codable {
     var fullname: String?
     var bio: String?
     let email: String
+    
+    var isCurrentUser: Bool {
+        guard let currentUId = Auth.auth().currentUser?.uid else { return false }
+        return currentUId == id
+    }
 }
 
 extension User {
@@ -23,6 +29,6 @@ extension User {
         .init(id: NSUUID().uuidString, username: "user3", profileImageUrl: "profile_picture_3", fullname: "User Three", email: "user3@gmail.com"),
         .init(id: NSUUID().uuidString, username: "user4", profileImageUrl: "profile_picture_4", fullname: "User Four", bio: "Just bio", email: "user4@gmail.com"),
         .init(id: NSUUID().uuidString, username: "user5", profileImageUrl: "profile_picture_5", fullname: "User Five", email: "user5@gmail.com"),
-        .init(id: NSUUID().uuidString, username: "user6", profileImageUrl: "profile_picture_6", fullname: "User Six", bio: "Last bio", email: "user6@gmail.com")
+        .init(id: NSUUID().uuidString, username: "user6", profileImageUrl: "profile_picture_6", fullname: nil, bio: "Last bio", email: "user6@gmail.com")
     ]
 }
