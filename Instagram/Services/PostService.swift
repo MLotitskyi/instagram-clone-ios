@@ -10,8 +10,10 @@ import FirebaseFirestore
 
 struct PostService {
     
+    private static let postsCollection = Firestore.firestore().collection("posts")
+    
     static func fetchFeedPosts() async throws -> [Post] {
-        let snapshot = try await Firestore.firestore().collection("posts").getDocuments()
+        let snapshot = try await postsCollection.getDocuments()
         var posts = try snapshot.documents.compactMap({ try $0.data(as: Post.self) })
         
         for i in 0 ..< posts.count {
@@ -25,6 +27,7 @@ struct PostService {
     }
     
     static func fetchUserPosts(uid: String) async throws -> [Post] {
-        return []
+        let snapshot = try await postsCollection.whereField("ownerUid", isEqualTo: uid).getDocuments()
+        return try snapshot.documents.compactMap({ try $0.data(as: Post.self) })
     }
 }

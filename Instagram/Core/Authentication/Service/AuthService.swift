@@ -29,7 +29,7 @@ class AuthService {
             self.userSession = result.user
             try await loadUserData()
         } catch {
-            print("DEBUG: Failed to log in with error:  \(error.localizedDescription)")
+            print("DEBUG: Failed to log in with error:  \(error)")
         }
     }
     
@@ -40,7 +40,7 @@ class AuthService {
             self.userSession = result.user
             await uploadUserData(uid: result.user.uid, username: username, email: email)
         } catch {
-            print("DEBUG: Failed to register user with error:  \(error.localizedDescription)")
+            print("DEBUG: Failed to register user with error:  \(error)")
         }
     }
     
