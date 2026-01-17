@@ -9,7 +9,19 @@ import SwiftUI
 import Kingfisher
 
 struct FeedCell: View {
-    let post: Post
+    @ObservedObject var viewModel: FeedCellViewModel
+    
+    private var post: Post {
+        return viewModel.post
+    }
+    
+    private var didLike: Bool {
+        return post.didLike ?? false
+    }
+    
+    init(post: Post) {
+        self.viewModel = FeedCellViewModel(post: post)
+    }
     
     var body: some View {
         VStack {
@@ -32,14 +44,16 @@ struct FeedCell: View {
                 .scaledToFill()
                 .frame(height: 400)
                 .clipShape(Rectangle())
+                .allowsHitTesting(false)
             
             // action buttons
             HStack(spacing: 16) {
                 Button {
-                    print("Like post")
+                    handleLikeTapped()
                 } label: {
-                    Image(systemName: "heart")
+                    Image(systemName: didLike ? "heart.fill" : "heart")
                         .imageScale(.large)
+                        .foregroundStyle(didLike ? .red : .black)
                 }
                 
                 Button {
@@ -65,12 +79,14 @@ struct FeedCell: View {
             
             // likes label
             
-            Text("\(post.likes) likes")
-                .font(.footnote)
-                .fontWeight(.semibold)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.leading, 10)
-                .padding(.top, 1)
+            if post.likes > 0 {
+                Text("\(post.likes) likes")
+                    .font(.footnote)
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 10)
+                    .padding(.top, 1)
+            }
             
             // caption label
             
@@ -95,6 +111,20 @@ struct FeedCell: View {
                 .padding(.leading, 10)
                 .padding(.top, 1)
                 .foregroundStyle(.gray)
+        }
+    }
+    
+    private func handleLikeTapped() {
+        Task {
+            do {
+                if didLike {
+                    try await viewModel.unlike()
+                } else {
+                    try await viewModel.like()
+                }
+            } catch {
+                print("DEBUG: Error: \(error)")
+            }
         }
     }
 }
