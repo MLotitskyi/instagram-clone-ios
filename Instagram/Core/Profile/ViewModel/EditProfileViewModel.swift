@@ -63,15 +63,17 @@ class EditProfileViewModel: ObservableObject {
         }
         
         if !data.isEmpty {
-            try await Firestore.firestore().collection("users").document(user.id).updateData(data)
-        }
-        
-        if let newFullname = data["fullname"] as? String {
-            user.fullname = newFullname
-        }
+            try await FirebaseConstants.UsersCollection.document(user.id).updateData(data)
+            
+            if let newFullname = data["fullname"] as? String {
+                        user.fullname = newFullname
+                    }
 
-        if let newBio = data["bio"] as? String {
-            user.bio = newBio
+                    if let newBio = data["bio"] as? String {
+                        user.bio = newBio
+                    }
+
+                    UserService.shared.updateCurrentUser(user)
         }
     }
 }

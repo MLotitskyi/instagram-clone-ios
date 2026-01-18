@@ -106,7 +106,7 @@ struct FeedCell: View {
             
             // timestamp label
             
-            Text("6h ago")
+            Text(post.timestamp.timestampString())
                 .font(.footnote)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 10)
