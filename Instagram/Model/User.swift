@@ -16,6 +16,8 @@ struct User: Identifiable, Hashable, Codable {
     var bio: String?
     let email: String
     
+    var isFollowed: Bool? = false
+    
     var isCurrentUser: Bool {
         guard let currentUId = Auth.auth().currentUser?.uid else { return false }
         return currentUId == id
