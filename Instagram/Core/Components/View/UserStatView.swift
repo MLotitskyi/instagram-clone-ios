@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct UserStatView: View {
-    @State var value: Int
-    @State var title: String
+    let value: Int
+    let title: String
     
     var body: some View {
         VStack {
@@ -20,6 +20,7 @@ struct UserStatView: View {
             Text(title)
                 .font(.footnote)
         }
+        .opacity(value == 0 ? 0.5 : 1.0)
         .frame(width: 84)
     }
 }

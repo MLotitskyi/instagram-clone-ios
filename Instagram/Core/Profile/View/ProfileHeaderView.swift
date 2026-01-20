@@ -19,6 +19,10 @@ struct ProfileHeaderView: View {
         return user.isFollowed ?? false
     }
     
+    private var stats: UserStats {
+        return user.stats ?? .init(followingCount: 0, followersCount: 0, postsCount: 0)
+    }
+    
     private var buttonTitle: String {
         if user.isCurrentUser {
             return "Edit Profile"
@@ -64,11 +68,11 @@ struct ProfileHeaderView: View {
                 Spacer()
                 
                 HStack(spacing: 12) {
-                    UserStatView(value: 3, title: "Posts")
+                    UserStatView(value: stats.postsCount, title: "Posts")
                     
-                    UserStatView(value: 3, title: "Followers")
+                    UserStatView(value: stats.followersCount, title: "Followers")
                     
-                    UserStatView(value: 1, title: "Following")
+                    UserStatView(value: stats.followingCount, title: "Following")
                 }
             }
             .padding(.horizontal)
