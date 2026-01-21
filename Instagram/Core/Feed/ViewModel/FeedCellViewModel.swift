@@ -37,6 +37,7 @@ class FeedCellViewModel: ObservableObject {
             post.likes -= 1
             try await PostService.unlikePost(postCopy)
         } catch {
+            print(error)
             post.didLike = true
             post.likes += 1
         }

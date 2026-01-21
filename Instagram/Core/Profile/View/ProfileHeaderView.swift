@@ -70,9 +70,13 @@ struct ProfileHeaderView: View {
                 HStack(spacing: 12) {
                     UserStatView(value: stats.postsCount, title: "Posts")
                     
-                    UserStatView(value: stats.followersCount, title: "Followers")
+                    NavigationLink(value: UserListConfig.followers(uid: user.id)) {
+                        UserStatView(value: stats.followersCount, title: "Followers")
+                    }
                     
-                    UserStatView(value: stats.followingCount, title: "Following")
+                    NavigationLink(value: UserListConfig.following(uid: user.id)) {
+                        UserStatView(value: stats.followingCount, title: "Following")
+                    }
                 }
             }
             .padding(.horizontal)
@@ -120,6 +124,13 @@ struct ProfileHeaderView: View {
             
             
             Divider()
+        }
+        .navigationDestination(for: UserListConfig.self, destination: { config in
+            UserListView(config: config)
+        })
+        .onAppear {
+            viewModel.fetchUserStats()
+            viewModel.checkIfUserIsFollowed()
         }
         .fullScreenCover(isPresented: $showEditProfile) {
             EditProfileView(user: user)
