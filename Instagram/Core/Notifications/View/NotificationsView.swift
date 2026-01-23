@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct NotificationsView: View {
-    @StateObject var viewModel = NotificationsViewModel()
-    
+    @StateObject var viewModel = NotificationsViewModel(service: NotificationService())
+        
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -20,6 +20,15 @@ struct NotificationsView: View {
                     }
                 }
             }
+            .refreshable {
+                Task { await viewModel.fetchNotifications() }
+            }
+            .navigationDestination(for: Post.self, destination: { post in
+                FeedCell(post: post)
+            })
+            .navigationDestination(for: User.self, destination: { user in
+                ProfileView(user: user)
+            })
             .navigationTitle("Notifications")
             .navigationBarTitleDisplayMode(.inline)
         }

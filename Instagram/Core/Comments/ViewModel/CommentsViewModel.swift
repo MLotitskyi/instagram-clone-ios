@@ -34,6 +34,9 @@ class CommentsViewModel: ObservableObject {
         
         do {
             try await service.uploadComment(comment)
+            try await fetchComments()
+            
+            NotificationManager.shared.uploadCommentNotification(toUid: post.ownerUid, post: post)
         } catch {
             self.comments.removeAll { $0.id == comment.id }
         }
